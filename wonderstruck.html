@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>on rock climbing</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
+    />
+    <link rel="stylesheet" href="wonderstruck.css" />
+
+    <!-- CDN -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>
+      hljs.highlightAll();
+    </script>
+  </head>
+  <body>
+    <article>
+      <h1>The surefire way to get into rock-climbing</h1>
+
+      <p>
+        I attended a small liberal arts college that had a small student body of
+        around 3,000.
+      </p>
+
+      <p>
+        I'd wanted to take rock climbing since my first year, but only the first
+        15 lucky people who refreshed their computers and clicked a button fast
+        enough got to spend a whole semester rock climbing.
+      </p>
+      <p>
+        Being a CS nerd, I wondered if there was a way I could click that button
+        faster and more times such that I could guarantee that I would get to
+        rock climb.
+      </p>
+      <img src="img/descend.JPG" alt="a man descending down a rock wall face" />
+      <p>And indeed, I could!</p>
+      <p>
+        <em>wonderstruck.py</em> is a simple, command line based interface that
+        builds a course catalog from my college’s student information system
+        (SIS), allows a user to select classes and send many add requests to the
+        SIS server.
+      </p>
+      <h2>Building the course catalog in Python</h2>
+      <p>
+        My college is nice enough to host a public endpoint for all of the
+        classes, which lists interesting information such as course and
+        instructor names, location, gen eds, and of course, number of remaining
+        seats:
+      </p>
+      <figure>
+        <img src="img/sis.png" alt="a screenshot of a computer server" />
+        <figcaption>
+          Snippet from
+          <a href="https://sis.stolaf.edu/sis/public-aclasslab.cfm#theresults"
+            >SIS</a
+          >
+        </figcaption>
+      </figure>
+      <p>
+        The first step of this tool downloads a local copy of the information on
+        the SIS server and parses it into a format that we can interrogate.
+      </p>
+      <p>
+        I made a class (a Python class, not a class that I want to register for)
+        that holds all the courses, the department list, and cookies, which are
+        necessary to submit requests on behalf of a particular user. It also
+        includes some headers, which are used for crafting HTTP requests to the
+        server.
+      </p>
+      <p>
+        The first real function here is parse_classes, which downloads all the
+        class information from SIS. Looking back on this is kind of heinous — I
+        didn’t use a library like beautifulsoup to simplify parsing the HTML. I
+        just looked the requests until I found markers of a course (for example,
+        “td class=”sis-left etc etc”.
+      </p>
+      <pre><code>def parse_classes(self):
+        print("building course list.")
+        raw_class_list = r.get(search_url, headers=self.h, cookies=self.cj).text
+        lines = raw_class_list.splitlines()
+        for i in range(len(lines)):
+            if 'td class="sis-left sis-deptnum" valign="top">' in lines[i]:
+                dep_num_line = lines[i]
+                dep = (dep_num_line.split(">")[1]).split("&")[0]
+                num = (dep_num_line.split(";")[1]).split("<")[0]
+
+                sec_line = lines[i+1]
+                sec = (sec_line.split(">")[1]).split("<")[0]
+                if sec == "":
+                    sec = "0"
+                
+                id_name_line = lines[i+8]
+                c_id = (id_name_line.split("clbid=")[1]).split('"')[0]
+                name = (id_name_line.split('">')[1]).split("<")[0]
+
+                # search variable line distance to find capacity
+                # bug: lab classes are weird.
+                capacity = ""
+                for k in range(25,40):
+                    if '<td class="sis-center" valign="top" style="white-space: nowrap;">' in lines[i+k]:
+                        capacity = (lines[i+k+2].split(">")[1]).split("<")[0]
+
+                new_course = Course(dep, num, sec, c_id, name, capacity)
+                self.course_list.append(new_course)
+        print("found {} classes.".format(len(self.course_list)))
+
+</code></pre>
+      <p>
+        This is probably not the most efficient method and certainly not the
+        prettiest to look at. But it works, and isn’t that what programming is
+        all about?
+      </p>
+      <p>
+        The good news is, with all of that ugly searching behind us, building a
+        course object is dead simple: store each course with the important
+        variables and append it to the master list.
+      </p>
+      <h2>Choosing your courses</h2>
+      <p>
+        With a list of courses built, we now face the challenge of telling the
+        program which courses we would like to send the server many add requests
+        for.
+      </p>
+      <p>
+        Sure, you could hardcode the program to send 500 requests for KINES 106
+        (rock climbing, of course), but then what was the point of building that
+        whole database? This simple UI prints out the course list for the user
+        and then allows them to enter a department, number, and section.
+      </p>
+      <p>
+        If the user does a good job, the course is added to the “classes to send
+        request for list”. If the user does a bad job (and does not submit
+        proper input), they are scolded.
+      </p>
+      <p>
+        This is of course a Python 101-level interface, but the ultimate
+        sophistication is simplicity.
+      </p>
+      <pre><code>  def choose_classes(self):
+        print("\nUse dep_name class_num section (enter 0 if only 1 section) format
+        Example: SOAN 121 0\nEnter q to stop\n")
+        while True:
+            usr = input("Enter the class you want: ").split()
+            
+            try:
+                if usr[0].upper() == "Q":
+                    break
+                if usr[0].upper() == "ALL":
+                    self.print_course_list()
+                    continue
+                
+                dep = usr[0].upper()
+                num = usr[1]
+                sec = usr[2]
+                if sec != "0":
+                    sec = sec.upper()
+            except:
+                print("bad input. Example: SOAN 121 0\n")
+                continue
+
+            if dep not in self.dep_list:
+                print("bad dept! avaliable dept codes: {}\n".format(self.dep_list))
+                continue
+
+            found = False
+            for c in self.course_list:
+                if c.dep == dep and c.num == num and c.sec == sec:
+                    self.user_classes.append(c)
+                    print("added {} to your schedule!".format(c.name))
+                    found = True
+            if not found:
+                print("course not found. available {} classes:".format(dep))
+                self.print_course_list(dep)
+</code></pre>
+      <h2>Sending add requests</h2>
+      <p>Now the magic!</p>
+      <p>
+        It turns out the fancy green “add” button you see when registering
+        online is just a simple POST request.
+      </p>
+      <p>
+        If you don't know what a POST request is, I'd advise you to shut down
+        Kali Linux, open the dev tools panel in Chrome, and just start click on
+        some requests as you navigate through a few websites. You'll learn a lot
+        about how websites communicate.
+      </p>
+      <p>
+        Sending POST requests (or any, really) is very easy in Python thanks to
+        the requests moeule:
+      </p>
+      <pre><code>   def send_post_requests(self, times=1):
+        for i in range(times):
+            print("\nattempt #{}\n-----------------------".format(i+1))            
+            for c in self.user_classes:
+                print("sending ADD request for {}".format(c.name))
+                response = r.post(url, headers=self.h, data=c.gen_add_data(), cookies=self.cj).text
+                self.parse_response(response, c)</code></pre>
+      <h2>Wrap up</h2>
+      <p>
+        There are a few other bits of my code that you can read yourself, on
+        Github.
+      </p>
+      <p>
+        For the record, this totally worked! I got into rock climbing and had a
+        blast.
+      </p>
+      <h2>Future ideas</h2>
+      <p>
+        If I hadn't graduated, there are a few other things I might have added
+        to this project:
+      </p>
+      <ul>
+        <li>
+          Hold a cached version of courses so you don’t have to re-download the
+          entire course schedule each time you run the program. But, you do have
+          to check for open seats, so maybe this is silly.
+        </li>
+        <li>
+          Add thread-based parallelism, so requests can be sent without waiting
+          for responses.
+        </li>
+        <li>
+          Make a web-based UI (but I'd probably need to get a little better at
+          web development first, hm?)
+        </li>
+      </ul>
+    </article>
+  </body>
+</html>
