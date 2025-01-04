@@ -10,6 +10,8 @@
     />
     <link rel="stylesheet" href="wonderstruck.css" />
 
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
+
     <!-- CDN -->
     <link
       rel="stylesheet"
@@ -39,7 +41,15 @@
         faster and more times such that I could guarantee that I would get to
         rock climb.
       </p>
-      <img src="img/descend.JPG" alt="a man descending down a rock wall face" />
+      <figure>
+        <img
+          src="img/descend.JPG"
+          alt="a man descending down a rock wall face"
+        />
+        <figcaption>
+          Okay, fine, this was me in Utah, but you get the point
+        </figcaption>
+      </figure>
       <p>And indeed, I could!</p>
       <p>
         <em>wonderstruck.py</em> is a simple, command line based interface that
@@ -64,7 +74,7 @@
         </figcaption>
       </figure>
       <p>
-        The first step of this tool downloads a local copy of the information on
+        The first step of my tool downloads a local copy of the information on
         the SIS server and parses it into a format that we can interrogate.
       </p>
       <p>
@@ -79,7 +89,7 @@
         class information from SIS. Looking back on this is kind of heinous — I
         didn’t use a library like beautifulsoup to simplify parsing the HTML. I
         just looked the requests until I found markers of a course (for example,
-        “td class=”sis-left etc etc”.
+        “td class=”sis-left etc etc”.)
       </p>
       <pre><code>def parse_classes(self):
         print("building course list.")
