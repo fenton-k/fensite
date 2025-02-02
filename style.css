@@ -10,9 +10,11 @@
 }
 
 :root {
+  --light-green: #bbd8b2;
   --green: #087f5b;
   --dark-green: #064d37;
   --grey: #dee2e6;
+  --black: #222222;
 }
 
 /* heading elements */
@@ -63,6 +65,10 @@ h2 {
   border-width: 100px;
   border: 2px solid transparent;
   transition: 0.2s;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .project h3 {
@@ -73,33 +79,45 @@ h2 {
 }
 
 .project em {
-  color: #3f3f3f;
+  color: var(--black);
   font-size: 14px;
   transition: 0.2s;
 }
 
 .project:hover {
-  background-color: var(--green);
-  color: var(--grey);
+  background-color: var(--light-green);
   border-color: var(--grey);
   border: 2px solid var(--grey);
   cursor: pointer;
 }
 
 .project:hover h3 {
-  color: var(--grey);
+  color: var(--black);
 }
 
-.project:hover em {
-  color: var(--grey);
+.project-logo-row {
+  display: flex;
+  justify-content: end;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.project-logo {
+  height: 25px;
+  transition: 0.2s;
+  /* fill: var(--black); */
+  filter: invert(10%) sepia(0%) saturate(0%) hue-rotate(120deg) brightness(101%)
+    contrast(93%);
+}
+
+.project:hover .project-logo {
+  filter: none;
+  /* width: 100px; */
 }
 
 .author-email {
   font-size: 14px;
   font-weight: 500;
-}
-
-.author-github {
 }
 
 footer {
@@ -134,4 +152,50 @@ footer {
     font-size: 24px;
     margin-bottom: 20px;
   }
+}
+
+.blog-post {
+  /* display: flex; */
+  justify-content: center;
+  background-color: var(--grey);
+  color: var(--green);
+  padding: 0.5em 1em 1em 1em;
+  border-radius: 20px;
+  box-shadow: 0 20px 30px 0px rgb(0, 0, 0, 0.3);
+  border-width: 100px;
+  border: 2px solid transparent;
+  transition: 0.2s;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.blog-post h3 {
+  color: var(--green);
+  transition: 0.2s;
+}
+
+.blog-post em {
+  color: var(--black);
+  font-size: 14px;
+  transition: 0.2s;
+  margin: 10px auto 0 auto;
+}
+
+.blog-post img {
+  max-width: 300px;
+  margin: 10px auto 0 auto;
+  border-radius: 10px;
+}
+
+.blog-post:hover {
+  background-color: var(--light-green);
+  border-color: var(--grey);
+  border: 2px solid var(--grey);
+  cursor: pointer;
+}
+
+.blog-post:hover h3 {
+  color: var(--black);
 }
