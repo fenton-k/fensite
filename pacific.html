@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      When 500 Computers Go Missing: Lessons from a Major Hotel Opening
+    </title>
+    <style>
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          sans-serif;
+        line-height: 1.6;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #f8f9fa;
+      }
+
+      article {
+        background: white;
+        padding: 40px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        position: relative;
+      }
+
+      .lesson-box {
+        position: absolute;
+        right: -200px;
+        width: 180px;
+        background: #fff;
+        border: 2px solid #e9ecef;
+        border-radius: 8px;
+        padding: 15px;
+        font-size: 14px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        z-index: 10;
+      }
+
+      .lesson-box::before {
+        content: "";
+        position: absolute;
+        left: -10px;
+        top: 20px;
+        width: 0;
+        height: 0;
+        border-top: 8px solid transparent;
+        border-bottom: 8px solid transparent;
+        border-right: 10px solid #e9ecef;
+      }
+
+      .lesson-box::after {
+        content: "";
+        position: absolute;
+        left: -8px;
+        top: 20px;
+        width: 0;
+        height: 0;
+        border-top: 8px solid transparent;
+        border-bottom: 8px solid transparent;
+        border-right: 10px solid #fff;
+      }
+
+      .lesson-box h4 {
+        margin: 0 0 10px 0;
+        color: #2c3e50;
+        font-size: 16px;
+        font-weight: 600;
+      }
+
+      .lesson-box p {
+        margin: 0;
+        color: #5a6c7d;
+        line-height: 1.4;
+      }
+
+      .lesson-1 {
+        top: 1100px;
+      }
+      .lesson-2 {
+        top: 1600px;
+      }
+      .lesson-3 {
+        top: 2100px;
+      }
+
+      @media (max-width: 1200px) {
+        .lesson-box {
+          position: static;
+          width: auto;
+          margin: 20px 0;
+          right: auto;
+        }
+
+        .lesson-box::before,
+        .lesson-box::after {
+          display: none;
+        }
+      }
+
+      h1 {
+        color: #2c3e50;
+        border-bottom: 3px solid #3498db;
+        padding-bottom: 10px;
+      }
+
+      h2 {
+        color: #34495e;
+        margin-top: 40px;
+      }
+
+      p {
+        margin-bottom: 20px;
+        color: #2c3e50;
+      }
+
+      .lesson-learned {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <article>
+      <h1>When 500 Computers Go Missing: Lessons from a Major Hotel Opening</h1>
+
+      <p>
+        I recently had the opportunity to join the pre-opening team for a major
+        hotel opening (1500+ rooms!). That's one of the things I enjoy a great
+        deal about being an IT manager for a global organization — although I
+        work regionally, I am occasionally called upon to assist on task forces.
+      </p>
+
+      <h2>How Hotels Order Computers (Spoiler: It's Messy)</h2>
+
+      <p>
+        I worked on the computer inventory project, which sounds easy but is
+        not. You'd think there would be a better way to order computers for a
+        hotel, but it seems to consistently be a mess. Here's how the process
+        works: each computer is tied to a job title that the hotel has received
+        approval to hire, either now or in the future. Once the hotel leadership
+        has the list of job titles, they sit down with the IT opening team.
+        Together, the group decides for each job title whether they should
+        receive a laptop, desktop, or no computer. Laptops (plus a monitor and
+        dock) tend to be more expensive, so they are generally reserved for
+        positions with more seniority. This means one must be careful when
+        distributing equipment — if you give the assistant manager of
+        housekeeping a laptop and tell the director of food and beverage,
+        "Sorry! Can I give you a desktop instead?", they tend to be unhappy (and
+        less productive, which is the real kicker.)
+      </p>
+
+      <p>
+        So, anyhow, the leadership team and IT team decide on which devices
+        should be ordered and then they start ordering devices. One of the first
+        complications of this process is that there is not one big order where a
+        pallet with two tons of computers shows up at your newly-built hotel.
+      </p>
+
+      <p>
+        Operational work starts well before the hotel itself is ready for its
+        staff to move in. You'll have a pre-opening office located near the
+        hotel, and the team that is working at that office needs laptops and
+        printers and other equipment to work. So, you'll do a smaller order or
+        handful of orders to get the team initially up and running. Then you
+        hire and hire and hire and all of a sudden you have directors and senior
+        managers and you need more devices. So, you keep putting in orders and
+        then at some point you just do the big push of submitting all of the
+        remaining devices.
+      </p>
+
+      <h2>How I Approached the Inventory Crisis</h2>
+
+      <p>
+        By the time I arrived on site for the opening, the team had moved from
+        the pre-opening office to the hotel itself. Plus, they'd been busy —
+        about half of the 500 or so computers and laptops had already been
+        distributed around the property. The other half were sitting in the
+        conference room our team had taken over and filled with provisions from
+        Costco (our war room, as we affectionately called it). Still, all this
+        work had happened, and there was no complete inventory of where each
+        device was located and where the remaining devices needed to be
+        deployed.
+      </p>
+
+      <p>
+        This is a real business problem. As an IT leader, the last thing you
+        want to be asking yourself (two weeks before opening) is "have we
+        ordered enough computers? Do we need to order more?"
+      </p>
+
+      <p>
+        Or, even worse, "Did we accidentally give someone a computer that was
+        not earmarked for them?"
+      </p>
+
+      <p>
+        Plus, inventories are just helpful for day to day work. You are miles
+        ahead when preparing for capital expenditures when you know exactly when
+        each device was purchased and when it is no longer covered by the
+        manufacturer's support. You are able to troubleshoot faster and more
+        effectively when you know what is where.
+      </p>
+
+      <p>
+        Before I arrived, four other people (including the hotel's director of
+        technology) had attempted to build an inventory. There was no document
+        that was iterated to create an up-to-date inventory — only a few
+        snapshots from moments in time that recorded some (maybe 20%?) of the
+        devices.
+      </p>
+
+      <p>
+        The IT project manager actually barked at me to not "waste my time
+        building an inventory" and told me that building an inventory this late
+        in the game was "impossible." In fact, she was so against the idea of
+        the pre-opening team working on inventory that she refused to share the
+        order sheet with anyone, including me. So, I had to be creative.
+      </p>
+
+      <p>
+        We have internal systems that I can use to see which devices are
+        connected to the network. By looking across a few of them, I had a
+        pretty good idea of how many devices had been physically set up on
+        property. I knew this late in the game there would be no more devices
+        shipped, so everything that was online now (either in its actual
+        location or sitting in our conference room) was everything that we had.
+        With that, I had a list of all of the devices and their serial numbers.
+        I just then needed to find every computer — how hard could that be?
+      </p>
+
+      <div class="lesson-box lesson-1">
+        <h4>💡 Lesson Learned</h4>
+        <p>
+          Use the tools you have creatively. When I couldn't get access to the
+          order sheet, I worked backwards from network data to build my own
+          starting point. There's almost always another way to approach a
+          problem.
+        </p>
+      </div>
+
+      <p class="lesson-learned">
+        <strong>Lesson learned:</strong> use the tools you have creatively. When
+        I couldn't get access to the order sheet, I worked backwards from
+        network data to build my own starting point. There's almost always
+        another way to approach a problem.
+      </p>
+
+      <p>
+        I started by just going around the hotel, and everywhere I could find a
+        computer, I recorded the serial number of the device and its location.
+        Within a few hours, I had identified about 80% of the devices.
+      </p>
+
+      <p>
+        By the end of the day, when the project manager saw how much progress I
+        had made, she gave me kudos and said, "huh. Maybe you actually can solve
+        this problem." And so I became one of the select few who had access to
+        the order sheet.
+      </p>
+
+      <div class="lesson-box lesson-2">
+        <h4>💡 Lesson Learned</h4>
+        <p>
+          Sometimes, you have to prove the "impossible" is possible. When
+          stakeholders are burned out from previous failed attempts, they'll
+          resist new efforts. I had to demonstrate progress before getting
+          buy-in, not the other way around.
+        </p>
+      </div>
+
+      <p class="lesson-learned">
+        <strong>Lesson learned:</strong> sometimes, you have to prove the
+        "impossible" is possible. When stakeholders are burned out from previous
+        failed attempts, they'll resist new efforts. I had to demonstrate
+        progress before getting buy-in, not the other way around.
+      </p>
+
+      <p>
+        With this information, I had more context to track down the remaining
+        missing computers (who knew that hotels have harbormasters now? Or that
+        they need computers?!).
+      </p>
+
+      <p>
+        With the order sheet, I was able to correlate deployed computers with
+        the job titles those computers were ordered for, based on the physical
+        location they were in. Even if you don't know (or don't care) which
+        device was deployed to which of the twenty accountants, you can feel
+        confident inventorying the twenty computers in the accounting office and
+        marking those computers as deployed. Within another day, I had created a
+        list, organized by department, showing how many computers had been
+        deployed and how many needed to be deployed still (from the conference
+        room computer storage). Luckily for me, there were no over-deployments
+        (people who received computers despite one not being ordered for them).
+        In fact, there was kind of the opposite problem — leftover (spare!!!)
+        computers.
+      </p>
+
+      <div class="lesson-box lesson-3">
+        <h4>💡 Lesson Learned</h4>
+        <p>
+          Focus on business impact, not perfect data. I didn't need to know
+          exactly which accountant had which computer - I needed to know that
+          accounting was properly equipped. Sometimes "good enough" data now
+          that answers business questions is better than perfect data that comes
+          too late.
+        </p>
+      </div>
+
+      <p class="lesson-learned">
+        <strong>Lesson learned:</strong> focus on business impact, not perfect
+        data. I didn't need to know exactly which accountant had which computer
+        - I needed to know that accounting was properly equipped. Sometimes
+        "good enough" data now that answers business questions is better than
+        perfect data that comes too late.
+      </p>
+
+      <p>
+        Having some spare computers isn't a terrible thing. It helps you respond
+        to issues promptly. If a computer dies catastrophically somehow, you can
+        simply warranty the dead device and replace it immediately with a spare.
+        Still, you don't want to spend too much money proactively and then have
+        devices you never use sitting around. A general rule for spares is 3–5%
+        gives you a good balance to replace equipment quickly but not have
+        wasted capital.
+      </p>
+
+      <h2>Key takeaways</h2>
+
+      <p>
+        Looking back, what started as a "waste of time" became one of the most
+        valuable contributions I made to that opening. It reinforced my belief
+        that sometimes the most important work happens in the unglamorous
+        details that everyone else wants to skip.
+      </p>
+
+      <p>
+        That said, in your projects, document everything as you go. The reason
+        this became such a mess in the first place was that no one maintained a
+        living inventory document. Someone needs to either own the process from
+        the very beginning or handoffs must ensure all relevant information is
+        passed between parties appropriately. Every handoff between teams in
+        this opening created information loss.
+      </p>
+    </article>
+  </body>
+</html>
